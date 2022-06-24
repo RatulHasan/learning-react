@@ -1,14 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
+import {TodosContext} from "../context/TodoContext";
 
-const Footer = ({ todos, setTodo, setShowTodos, showTodos }: any) => {
+const Footer = () => {
+  const [state, dispatch]: any = useContext(TodosContext);
+  const todos = state.todos;
+  const showTodos = state.showTodos;
+
   const handleInput = (action: string) => {
     if ("clear_completed" === action) {
-      //delete the completed todo
-      setTodo(todos.filter((todo: any) => todo.todoStatus !== 0));
+      //delete the completed todos.
+      dispatch({type: 'DELETE_COMPLETED_TODO'});
     }
 
     if ("active" === action || "completed" === action || "all" === action) {
-      setShowTodos(action);
+      dispatch({type: 'SET_SHOW_TODOS', payload: {showTodos: action}});
     }
   };
   return (
@@ -19,37 +24,22 @@ const Footer = ({ todos, setTodo, setShowTodos, showTodos }: any) => {
         </span>
         <ul className="filters">
           <li>
-            <a
-              onClick={() => handleInput("all")}
-              className={"all" === showTodos ? "selected" : ""}
-              href="#/"
-            >
+            <a onClick={() => handleInput("all")} className={"all" === showTodos ? "selected" : ""} href="#/">
               All
             </a>
           </li>
           <li>
-            <a
-              onClick={() => handleInput("active")}
-              href="#/active"
-              className={"active" === showTodos ? "selected" : ""}
-            >
+            <a onClick={() => handleInput("active")} href="#/active" className={"active" === showTodos ? "selected" : ""}>
               Active
             </a>
           </li>
           <li>
-            <a
-              onClick={() => handleInput("completed")}
-              href="#/completed"
-              className={"completed" === showTodos ? "selected" : ""}
-            >
+            <a onClick={() => handleInput("completed")} href="#/completed" className={"completed" === showTodos ? "selected" : ""}>
               Completed
             </a>
           </li>
         </ul>
-        <button
-          onClick={() => handleInput("clear_completed")}
-          className="clear-completed"
-        >
+        <button onClick={() => handleInput("clear_completed")} className="clear-completed">
           Clear completed
         </button>
       </footer>

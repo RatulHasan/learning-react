@@ -1,7 +1,9 @@
-import React from "react";
-import { Todo } from "../pages/Home";
+import React, {useContext} from "react";
+import {TodosContext} from "../context/TodoContext";
 
-const Main = ({ todos, setTodo, showTodos }: any) => {
+const Main = () => {
+  const [state, dispatch]: any= useContext(TodosContext);
+  const {todos, showTodos} = state;
   const filteredTodos: any = () => {
     if (showTodos === "all") {
       return todos;
@@ -13,29 +15,15 @@ const Main = ({ todos, setTodo, showTodos }: any) => {
   };
 
   const handleToDo = (event: any) => {
-    const newTodo = [
-      ...todos.map((todo: Todo) => {
-        if (todo.id === parseInt(event.target.id)) {
-          if (event.target.checked) {
-            todo.todoStatus = 0;
-          } else {
-            todo.todoStatus = 1;
-          }
-        }
-        return todo;
-      }),
-    ];
-    setTodo(newTodo);
+    dispatch({type: 'TOGGLE_TODO',payload: {id: parseInt(event.target.id)}});
   };
   const deleteToDo = (event: any) => {
-    //delete the todo
-    setTodo(
-      todos.filter((todo: Todo) => todo.id !== parseInt(event.target.id))
-    );
+    //delete the todos.
+    dispatch({type: 'DELETE_TODO',payload: {id: parseInt(event.target.id)}});
   };
   const handleInput = (event: any) => {
     if (event.target.name === "todo-item") {
-      //set the todo status to 0 or 1
+      //set the todos status to 0 or 1
       handleToDo(event);
     }
     if (event.target.name === "delete-todo") {

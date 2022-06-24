@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
+import {TodosContext} from "../context/TodoContext";
 
-const Input = ({ setTodo, todos }: any) => {
+const Input = () => {
   const [value, setValue] = useState<string>("");
+  const [state, dispatch]: any= useContext(TodosContext);
   const handleInput = (event: any) => {
     if ("Enter" === event.key) {
-      setTodo([
-        ...todos,
-        {
-          id: todos.length + 1,
-          title: value,
-          todoStatus: 1,
-        },
-      ]);
+      dispatch({type: 'ADD_TODO',payload: value});
       setValue("");
     }
   };
