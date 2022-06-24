@@ -1,10 +1,13 @@
 import React from 'react';
 import Home from './pages/Home';
+import {TodosProvider} from "./context/TodoContext";
 
 function App() {
   return (
     <div className="App">
-      <Home></Home>
+      <TodosProvider>
+        <Home />
+      </TodosProvider>
     </div>
   );
 }
