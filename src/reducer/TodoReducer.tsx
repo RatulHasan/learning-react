@@ -9,8 +9,12 @@ export const initialState = {
     }
   ],
   showTodos: "all",
+  editTodo: {
+    id: 0,
+    title: "",
+    todoStatus: 0,
+  }
 }
-
 export const TodoReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "ADD_TODO":
@@ -58,6 +62,29 @@ export const TodoReducer = (state = initialState, action: any) => {
       return {
         ...state,
         showTodos: action.payload.showTodos
+      }
+    case "EDIT_TODO":
+      return {
+        ...state,
+        editTodo: {
+          id: action.payload.id,
+          title: action.payload.title,
+          todoStatus: action.payload.todoStatus,
+        }
+      }
+    case "UPDATE_TODO":
+      return {
+        ...state,
+        todos: state.todos.map((todo: any) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              title: action.payload.title,
+              todoStatus: action.payload.todoStatus,
+            }
+          }
+          return todo;
+        })
       }
     default:
       return state;

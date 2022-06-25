@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {TodosContext} from "../context/TodoContext";
 
 const Main = () => {
-  const [state, dispatch]: any= useContext(TodosContext);
+  const [state, dispatch]: any = useContext(TodosContext);
   const {todos, showTodos} = state;
   const filteredTodos: any = () => {
     if (showTodos === "all") {
@@ -15,11 +15,11 @@ const Main = () => {
   };
 
   const handleToDo = (event: any) => {
-    dispatch({type: 'TOGGLE_TODO',payload: {id: parseInt(event.target.id)}});
+    dispatch({type: 'TOGGLE_TODO', payload: {id: parseInt(event.target.id)}});
   };
   const deleteToDo = (event: any) => {
     //delete the todos.
-    dispatch({type: 'DELETE_TODO',payload: {id: parseInt(event.target.id)}});
+    dispatch({type: 'DELETE_TODO', payload: {id: parseInt(event.target.id)}});
   };
   const handleInput = (event: any) => {
     if (event.target.name === "todo-item") {
@@ -30,6 +30,10 @@ const Main = () => {
       deleteToDo(event);
     }
   };
+  const editTodo = (id: number) => {
+    const editedTodo = todos.find((todo: { id: number; }) => todo.id === id);
+    dispatch({type: 'EDIT_TODO', payload: {id: id, title: editedTodo.title, todoStatus: editedTodo.todoStatus}});
+  }
   return (
     <div>
       <section className="main">
@@ -38,10 +42,7 @@ const Main = () => {
         <ul className="todo-list">
           {filteredTodos().map((todo: any) => {
             return (
-              <li
-                className={0 === todo.todoStatus ? "completed" : ""}
-                key={todo.id}
-              >
+              <li className={0 === todo.todoStatus ? "completed" : ""} key={todo.id}>
                 <div className="view">
                   <input
                     onChange={handleInput}
@@ -51,7 +52,7 @@ const Main = () => {
                     id={todo.id}
                     checked={0 === todo.todoStatus}
                   />
-                  <label>{todo.title}</label>
+                  <label onDoubleClick={() => editTodo(todo.id)}>{todo.title}</label>
                   <button
                     name="delete-todo"
                     id={todo.id}
