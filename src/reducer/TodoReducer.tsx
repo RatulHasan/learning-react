@@ -26,7 +26,6 @@ export const TodoReducer = (state = initialState, action: any) => {
         ]
       }
     case "TOGGLE_TODO":
-      console.log(action)
       return {
         ...state,
         todos: state.todos.map((todo: any) => {
