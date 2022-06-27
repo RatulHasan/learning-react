@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useId} from "react";
 
 export const initialState = {
   todos: [
@@ -18,6 +18,9 @@ export const initialState = {
 export const TodoReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "ADD_TODO":
+      if ('' === action.payload) {
+        return state;
+      }
       return {
         ...state,
         todos: [
