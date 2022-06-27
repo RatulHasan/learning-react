@@ -15,7 +15,6 @@ export const initialState = {
     todoStatus: 0,
   }
 }
-
 export const TodoReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "ADD_TODO":
