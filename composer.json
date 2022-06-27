@@ -1,0 +1,18 @@
+{
+    "name": "ratulhasan/learning-react",
+    "description": "A WordPress React starter plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Ratulhasan\\LearningReact\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RatulHasan",
+            "email": "ratuljh@gmail.com"
+        }
+    ],
+    "require": {}
+}
