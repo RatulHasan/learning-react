@@ -40,6 +40,9 @@ final class Learning_React{
     public function init_hooks() {
 		// Add menu to the admin panel.
 	    add_action( 'admin_menu', [ $this, 'add_menu' ] );
+
+		// Enqueue scripts and styles.
+	    add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
     }
 
 	/**
@@ -62,7 +65,7 @@ final class Learning_React{
 	 */
 	public function render_page() {
 		?>
-		<div class="wrap">
+		<div id="root" class="wrap">
 			<h1>Learning React</h1>
 			<p>
 				<a href="https://www.ratuljh.wordpress.com/" target="_blank">
@@ -71,6 +74,19 @@ final class Learning_React{
 			</p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Enqueue scripts and styles.
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_script(
+			'learning-react-script',
+			plugins_url( 'build/static/js/main.d2e8ccd6.js', __FILE__ ),
+			[],
+			filemtime( plugin_dir_path( __FILE__ ) . 'build/static/js/main.d2e8ccd6.js' ),
+			true
+		);
 	}
 
 	/**
