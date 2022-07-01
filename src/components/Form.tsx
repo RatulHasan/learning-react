@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "@wordpress/element";
 
 function Form() {
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ function Form() {
     console.log(formData);
   };
 
-  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormInput = (e:any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef, useEffect} from "react";
+import  {useContext, useState, useRef, useEffect} from "@wordpress/element";
 import {TodosContext} from "../context/TodoContext";
 
 const Input = () => {

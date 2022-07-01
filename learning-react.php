@@ -4,7 +4,7 @@
  * Plugin URI:          https://github.com/RatulHasan/learning-react
  * Description:         Learning React
  * Version:             1.0.0
- * Requires PHP:        5.6
+ * Requires PHP:        7.0
  * Requires at least:   6.0
  * Author:              Ratul Hasan
  * Author URI:          https://ratuljh.wordpress.com/
@@ -27,15 +27,25 @@ final class Learning_React{
      */
     private static ?Learning_React $instance = null;
 
+	/**
+	 * Plugin version.
+	 *
+	 * @var string
+	 */
+	const VERSION = '1.0.0';
+
     /**
      * Constructor.
      */
     private function __construct() {
+	    $this->define_constants();
         $this->init_hooks();
     }
 
     /**
      * Initialize hooks.
+     *
+     * @return void
      */
     public function init_hooks() {
 		// Add menu to the admin panel.
@@ -46,7 +56,22 @@ final class Learning_React{
     }
 
 	/**
+	 * Defined all the required constants.
+	 *
+	 * @return void
+	 */
+	private function define_constants() {
+		define( 'LR_VERSION', self::VERSION );
+		define( 'LR_FILE', __FILE__ );
+		define( 'LR_PATH', __DIR__ );
+		define( 'LR_ASSETS', plugins_url( '', LR_FILE ) . '/assets' );
+		define( 'LR_ASSETS_REACT', plugins_url( '', LR_FILE ) . '/build' );
+	}
+
+	/**
 	 * Add menu to the admin panel.
+	 *
+	 * @return void
 	 */
 	public function add_menu() {
 		add_menu_page(
@@ -62,13 +87,17 @@ final class Learning_React{
 
 	/**
 	 * Render page.
+	 *
+	 * @return void
 	 */
 	public function render_page() {
+		// We need to load the React library here otherwise it will not get the DOM element to render.
+		wp_enqueue_script( 'learning-react-js' );
 		?>
 		<div id="root" class="wrap">
 			<h1>Learning React</h1>
 			<p>
-				<a href="https://www.ratuljh.wordpress.com/" target="_blank">
+				<a href="https://www.ratulhasan.com/" target="_blank">
 					Ratul Hasan
 				</a>
 			</p>
@@ -78,14 +107,18 @@ final class Learning_React{
 
 	/**
 	 * Enqueue scripts and styles.
+	 *
+	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script(
-			'learning-react-script',
-			plugins_url( 'build/static/js/main.d2e8ccd6.js', __FILE__ ),
-			[],
-			filemtime( plugin_dir_path( __FILE__ ) . 'build/static/js/main.d2e8ccd6.js' ),
-			true
+		$index_asset = require LR_PATH . '/build/index.asset.php';
+		// First we need to register the React library. Do not enqueue it here.
+		wp_register_script(
+			'learning-react-js',
+			LR_ASSETS_REACT . '/index.js',
+			$index_asset['dependencies'],
+			$index_asset['version'],
+			false
 		);
 	}
 
@@ -108,6 +141,8 @@ final class Learning_React{
      *
      * Checks for an existing WeDevs_WeDevs_Dokan() instance
      * and if it doesn't find one, creates it.
+     *
+     * @return \Learning_React
      */
     public static function init()
     : Learning_React {
@@ -122,7 +157,6 @@ final class Learning_React{
 
 /**
  * Load the plugins when all the plugins are loaded.
- * @since DOKAN_PRO_SINCE
  *
  * @return void
  */

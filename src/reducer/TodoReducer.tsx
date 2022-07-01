@@ -1,5 +1,3 @@
-import React, {useId} from "react";
-
 export const initialState = {
   todos: [
     {
